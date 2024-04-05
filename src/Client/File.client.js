@@ -1,9 +1,10 @@
 import FetchClient from "./fetch.client";
 
 class FileClient {
-    static async fetchData() {
+    static async fetchData(fileName) {
 
-        const response = await FetchClient.fetch(`/files/data`, {
+        const queryParams = fileName ? `?fileName=${fileName}` : ''
+        const response = await FetchClient.fetch(`/files/data${queryParams}`, {
             method: FetchClient.Method.GET
         });
 

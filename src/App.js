@@ -3,20 +3,23 @@ import FilesGrid from "./components/FilesGrid";
 import FileClient from "./Client/File.client";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import FilterGrid from "./components/FilterGrid";
+import Container from "react-bootstrap/Container";
 
 function App() {
     const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState([])
+    const [fileName, setFileName] = useState('')
 
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [fileName])
 
     function getData() {
         setIsLoading(true);
 
-        return FileClient.fetchData()
+        return FileClient.fetchData(fileName)
             .then((data) => {
                 setData(data);
             })
@@ -27,16 +30,19 @@ function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                <Row className="justify-content-md-center">
-                    <Col xs lg="2">
-                        <h1>React test app</h1>
+            <Container>
+                <Row>
+                    <Col><h1>React test app</h1></Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <FilterGrid setFileName={setFileName}/>
                     </Col>
                 </Row>
-            </header>
-            <container>
-                <FilesGrid data={data} isLoading={isLoading}/>
-            </container>
+                <Row>
+                    <Col><FilesGrid data={data} isLoading={isLoading}/></Col>
+                </Row>
+            </Container>
         </div>
     );
 }
